@@ -1,9 +1,39 @@
 #!/usr/bin/env
 
+# setup for testing
+rm -rf testbed
+mkdir testbed
+
+cd ./testbed
+# end setup for testing
+
+echo " _    _  __  ____  __  _  _    ___    __    __ "
+echo "( \/\/ )(  )(_  _)/ _)( )( )  (   \  /  \  / _)"
+echo " \    / /__\  )( ( (_  )__(    ) ) )( () )( (/\\"
+echo "  \/\/ (_)(_)(__) \__)(_)(_)  (___/  \__/  \__/"
+
 echo "Welcome to Watch Dog! When your dog gets out, you gotta go find it!"
 echo "On a scale of 1-10, how big is your neighborhood?"
 echo "(Note: The bigger your neighborhood, the harder it is to find your dog!)"
 read difficulty
+
+# Validate the difficulty level
+while true; do
+  # Check if the input is a number
+  if [[ $difficulty =~ ^[0-9]+$ ]]; then
+    # Check if the input is within the range 1-10
+    if ((difficulty >= 1 && difficulty <= 10)); then
+      break  # Exit the loop if the input is valid
+    else
+      echo "That's no good! Enter a number from 1-10!"
+      read difficulty
+    fi
+  else
+    echo "That's no good! Enter a number from 1-10!"
+    read difficulty
+  fi
+done
+
 # based on difficulty (1, 2, 3) determine how many streets to loop from
 # this writes dirs for everything - need to limit this
 
@@ -37,7 +67,7 @@ streets=$(($difficulty * 5))
 lines=()
 while IFS= read -r line && [ ${#lines[@]} -lt $streets ]; do
   lines+=("$line")
-done < "structure.txt"
+done < "../structure.txt" # TODO: fix this path
 
 # Shuffle the lines randomly using Fisher-Yates algorithm
 for ((i = ${#lines[@]} - 1; i > 0; i--)); do
