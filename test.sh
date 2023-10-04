@@ -1,6 +1,5 @@
 #!/usr/bin/env
 
-# chmod +xw test.sh
 # chmod -R 777 ./
 
 #### reset game
@@ -122,18 +121,9 @@ streets_length=${#streets[@]}  # Get the length of the streets array
 # Create directories based on the shuffled lines
 for street in "${streets[@]}"; do
   random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
-
-  # echo "RANDOM NUMBER: $random_index"
-  # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
-  # echo "neighborhood_directory_array is ${neighborhood_directory_array[@]}"
-  # nh_name="${neighborhood_directory_array[random_number]}"
   nh_name="${neighborhood_directory_array[random_index]}"
-  # echo "neighborhoods is $neighborhoods"
-  # echo "nh_name is $nh_name"
-
 
   directory_name=$(echo "$street" | tr -d '[:space:]')  # Remove spaces from the line
-  # echo "directory path: $nh_name/$directory_name"
   mkdir -m 777 -p "$nh_name/$directory_name"
 
   all_street_directories+=("$nh_name/$directory_name")
