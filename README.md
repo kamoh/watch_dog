@@ -5,7 +5,7 @@
   \/\/ (_)(_)(__) \__)(_)(_)  (___/  \__/  \__/
 ```
 
-Your dog's escaped into your filesystem... better go find him!
+Your dog's escaped into your filesystem... better go find 'em!
 
 A literal [decade](https://twitter.com/NoNameGhost/status/385974441219731456) in the making, _Watch Dog_ will provide nearly _minutes_ of entertainment for the whole (Bash-literate) family!
 
