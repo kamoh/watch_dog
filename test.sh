@@ -62,7 +62,6 @@ done
 # done
 
 num_neighborhoods=($difficulty + 1)
-num_streets=$(($difficulty * 5))
 
 # Set vars for neighborhood values
 all_neighborhoods=()
@@ -74,21 +73,21 @@ done < "../neighborhoods.txt" # TODO: fix this path
 
 # Randomly pick neighborhoods using Fisher-Yates algorithm
 # Define the range (min and max values)
-min=1
-max=${#all_neighborhoods[@]}
+neighborhood_min=1
+neighborhood_max=${#all_neighborhoods[@]}
 
 # for ((i = ${#all_neighborhoods[@]} - 1; i > 0; i--)); do
 for ((i = $num_neighborhoods - 1; i > 0; i--)); do
   # Generate a random number within the range
-  random_number=$((RANDOM % ($max - $min + 1) + $min))
+  random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
 
-  echo "RANDOM NUMBER: $random_number"
-  echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
+  # echo "RANDOM NUMBER: $random_number"
+  # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
   neighborhoods[i]="${all_neighborhoods[random_number]}"
 done
 
-length="${#neighborhoods[@]}"
-echo "Elements in neighborhoods array: $length"
+neighborhoods_length="${#neighborhoods[@]}"
+echo "Elements in neighborhoods array: $neighborhoods_length"
 
 # Create directories based on the shuffled lines
 for neighborhood in "${neighborhoods[@]}"; do
@@ -96,6 +95,47 @@ for neighborhood in "${neighborhoods[@]}"; do
   mkdir -p "$directory_name"
   # echo "Created directory: $directory_name"
 done
+
+# now, do the same for streets within the neighborhoods
+
+num_streets=$(($difficulty * 5))
+
+# Set vars for neighborhood values
+all_streets=()
+streets=()
+# while IFS= read -r line && [ ${#streets[@]} -lt $streets ]; do
+while IFS= read -r line; do
+  all_streets+=("$line")
+done < "../streets.txt" # TODO: fix this path
+
+# Randomly pick streets using Fisher-Yates algorithm
+# Define the range (min and max values)
+street_min=1
+street_max=${#all_streets[@]}
+
+for ((i = $num_streets - 1; i > 0; i--)); do
+  # Generate a random number within the range
+  random_number=$((RANDOM % ($street_max - $street_min + 1) + $street_min))
+
+  # echo "RANDOM NUMBER: $random_number"
+  # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
+  streets[i]="${all_streets[random_number]}"
+done
+
+streets_length="${#streets[@]}"
+echo "Elements in streets array: $streets_length"
+
+# Create directories based on the shuffled lines
+for streets in "${streets[@]}"; do
+  directory_name=$(echo "$streets" | tr -d '[:space:]')  # Remove spaces from the line
+  mkdir -p "$directory_name"
+  # echo "Created directory: $directory_name"
+done
+
+
+
+
+
 
 
 # sed '/^$/d;s/ /\//g' structure.txt | xargs mkdir -p
