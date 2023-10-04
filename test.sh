@@ -1,26 +1,35 @@
 #!/usr/bin/env
 
 # chmod +xw test.sh
-chmod -R 777 ./
+# chmod -R 777 ./
 
-# setup for testing
-rm -rf testbed
-mkdir testbed
+#### reset game
+rm -rf neighborhood
+mkdir neighborhood
 
-cd ./testbed
-# end setup for testing
+cd ./neighborhood
+#### end reset game
 
+#### title
 echo " _    _  __  ____  __  _  _    ___    __    __ "
 echo "( \/\/ )(  )(_  _)/ _)( )( )  (   \  /  \  / _)"
 echo " \    / /__\  )( ( (_  )__(    ) ) )( () )( (/\\"
 echo "  \/\/ (_)(_)(__) \__)(_)(_)  (___/  \__/  \__/"
 
+#### end title
+
+#### intro prompt
 echo "Welcome to Watch Dog! When your dog gets out, you gotta go find it!"
 echo "On a scale of 1-10, how big is your neighborhood?"
 echo "(Note: The bigger your neighborhood, the harder it is to find your dog!)"
 read difficulty
+#### end intro prompt
 
-# Validate the difficulty level
+# Need input timestamps so we can tell when the dog gets bored and keeps going
+# TODO
+# last_input_timestamp=$(date +%s)
+
+#### Validate the difficulty level
 while true; do
   # Check if the input is a number
   if [[ $difficulty =~ ^[0-9]+$ ]]; then
@@ -36,6 +45,7 @@ while true; do
     read difficulty
   fi
 done
+#### end validate the difficulty level
 
 echo "What's your dog's name?"
 read dog_name
@@ -45,7 +55,8 @@ if [[ "$dog_name" =~ ^[0-9]+$ ]]; then
   echo "That's a bunch of numbers! I'm asking for your dog's name, not its phone number!"
 fi
 
-echo "dog name is $dog_name"
+# debug
+# echo "dog name is $dog_name"
 
 num_neighborhoods=($difficulty + 1)
 
@@ -60,21 +71,18 @@ while IFS= read -r line; do
   all_neighborhoods+=("$line")
 done < "../neighborhoods.txt" # TODO: fix this path
 
-# Randomly pick neighborhoods using Fisher-Yates algorithm
-# Define the range (min and max values)
+# Randomly pick neighborhoods
 neighborhood_min=1
 neighborhood_max=${#all_neighborhoods[@]}
 
-# for ((i = ${#all_neighborhoods[@]} - 1; i > 0; i--)); do
 for ((i = $num_neighborhoods + 1; i > 0; i--)); do
-  # Generate a random number within the range
   random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
 
   neighborhoods[i]="${all_neighborhoods[random_number]}"
 done
 
 neighborhoods_length="${#neighborhoods[@]}"
-# echo "Elements in neighborhoods array: $neighborhoods_length"
+# debug echo "Elements in neighborhoods array: $neighborhoods_length"
 
 neighborhood_directory_array=()
 
@@ -87,6 +95,7 @@ done
 
 # now, do the same for streets within the neighborhoods
 
+# debug
 # echo "neighborhood array: ${neighborhoods[@]}"
 
 num_streets=$(($difficulty * 5))
@@ -94,29 +103,23 @@ num_streets=$(($difficulty * 5))
 # Set vars for neighborhood values
 all_streets=()
 streets=()
-# while IFS= read -r line && [ ${#streets[@]} -lt $streets ]; do
 while IFS= read -r line; do
   all_streets+=("$line")
-done < "../streets.txt" # TODO: fix this path
+done < "../streets.txt"
 
-# Randomly pick streets using Fisher-Yates algorithm
-# Define the range (min and max values)
+# Randomly pick streets
 street_min=1
 street_max=${#all_streets[@]}
 
 for ((i = $num_streets - 1; i > 0; i--)); do
-  # Generate a random number within the range
   random_number=$((RANDOM % ($street_max - $street_min + 1) + $street_min))
 
   streets[i]="${all_streets[random_number]}"
 done
 
 streets_length=${#streets[@]}  # Get the length of the streets array
-# echo "Elements in streets array: $streets_length"
 
 # Create directories based on the shuffled lines
-temp_streets_array=()
-
 for street in "${streets[@]}"; do
   random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
@@ -134,19 +137,6 @@ for street in "${streets[@]}"; do
   mkdir -m 777 -p "$nh_name/$directory_name"
 
   all_street_directories+=("$nh_name/$directory_name")
-
-
-
-  # echo "Streets array before: $temp_streets_array"
-  temp_streets_array+=("$street")  # Add the street to the temp_streets_array
-  # echo "Streets array after: $temp_streets_array"
-
-  # Check the length of the temp_streets_array
-  temp_streets_length=${#temp_streets_array[@]}
-
-  # Print the result
-  # echo "Temporary Streets Array: ${temp_streets_array[@]}"
-  # echo "Temporary Streets Array Length: $temp_streets_length"
 done
 
 # debug for all dir generation
@@ -155,10 +145,11 @@ done
 #   echo "Element: $element"
 # done
 
-# debug for dog filename
 dog_file_extension=".dog"
 dog_file_name=$dog_name$dog_file_extension
-echo "Dog filename: $dog_file_name"
+
+# debug for dog filename
+# echo "Dog filename: $dog_file_name"
 
 # place the dog somewhere
 random_street_directory_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
@@ -167,18 +158,3 @@ random_directory="${all_street_directories[random_street_directory_index]}"
 
 echo "Made a dog in $random_directory"
 touch $random_directory/$dog_file_name
-
-
-# todo
-
-# ask the user for their dog name
-# ask the user for their home street name
-
-# generate dog file and put it in a random place
-
-# every X times you cd in a dir, move the dog
-# every time the dog is moved, every X times leave a poop behind etc
-
-# if you find the dog, do the 'catch dog' command to catch it
-
-# every X times you try to catch dog, it escapes. maybe time limit?
