@@ -47,9 +47,9 @@ done
 # iterations=$1
 
 # Loop for the specified number of iterations
-for (( i = 1; i <= difficulty; i++ )); do
-  echo "Iteration $i"
-done
+# for (( i = 1; i <= difficulty; i++ )); do
+#   echo "Iteration $i"
+# done
 
 # # Read the first 5 lines of the text file and shuffle them randomly
 # random_lines=$(head -n 5 "structure.txt" | RANDOM % 10)
@@ -61,27 +61,40 @@ done
 #   echo "Created directory: $directory_name"
 # done
 
-streets=$(($difficulty * 5))
+num_neighborhoods=($difficulty + 1)
+num_streets=$(($difficulty * 5))
 
-# Read the first 5 lines of the text file into an array
-lines=()
-while IFS= read -r line && [ ${#lines[@]} -lt $streets ]; do
-  lines+=("$line")
-done < "../structure.txt" # TODO: fix this path
+# Set vars for neighborhood values
+all_neighborhoods=()
+neighborhoods=()
+# while IFS= read -r line && [ ${#neighborhoods[@]} -lt $streets ]; do
+while IFS= read -r line; do
+  all_neighborhoods+=("$line")
+done < "../neighborhoods.txt" # TODO: fix this path
 
-# Shuffle the lines randomly using Fisher-Yates algorithm
-for ((i = ${#lines[@]} - 1; i > 0; i--)); do
-  j=$((RANDOM % (i + 1)))
-  temp="${lines[i]}"
-  lines[i]="${lines[j]}"
-  lines[j]="$temp"
+# Randomly pick neighborhoods using Fisher-Yates algorithm
+# Define the range (min and max values)
+min=1
+max=${#all_neighborhoods[@]}
+
+# for ((i = ${#all_neighborhoods[@]} - 1; i > 0; i--)); do
+for ((i = $num_neighborhoods - 1; i > 0; i--)); do
+  # Generate a random number within the range
+  random_number=$((RANDOM % ($max - $min + 1) + $min))
+
+  echo "RANDOM NUMBER: $random_number"
+  echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
+  neighborhoods[i]="${all_neighborhoods[random_number]}"
 done
 
+length="${#neighborhoods[@]}"
+echo "Elements in neighborhoods array: $length"
+
 # Create directories based on the shuffled lines
-for line in "${lines[@]}"; do
-  directory_name=$(echo "$line" | tr -d '[:space:]')  # Remove spaces from the line
+for neighborhood in "${neighborhoods[@]}"; do
+  directory_name=$(echo "$neighborhood" | tr -d '[:space:]')  # Remove spaces from the line
   mkdir -p "$directory_name"
-  echo "Created directory: $directory_name"
+  # echo "Created directory: $directory_name"
 done
 
 
