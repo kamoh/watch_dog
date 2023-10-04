@@ -18,7 +18,7 @@ Download or clone this repo, `cd` into the directory, and run the game with:
 
 The game will ask you a few questions, then create a `neighborhood` directory for you to find your dog in!
 
-Once you find your dog, don't forget to `cat [dog_name]` to see what your buddy wants to express sincere gratitude for your effort!
+Once you find your dog, don't forget to `cat [dog_name]` to see how your buddy wants to express sincere gratitude for all your efforts!
 
 ### Credits
 
