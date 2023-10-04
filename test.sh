@@ -153,22 +153,20 @@ for street in "${streets[@]}"; do
   # Generate a random number within the range
 
   # dir does not work, random number does
-  random_index="$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))"
+  # random_index=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
 
 
   # dir works, random doesn;t
-  # random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
+  random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
   echo "RANDOM NUMBER: $random_index"
   # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
-  # echo "random_number is $random_number"
+  echo "neighborhood_directory_array is ${neighborhood_directory_array[@]}"
   # nh_name="${neighborhood_directory_array[random_number]}"
   nh_name="${neighborhood_directory_array[random_index]}"
   # echo "neighborhoods is $neighborhoods"
-  # echo "nh_name is $nh_name"
-
-  # done
   echo "nh_name is $nh_name"
+
 
   directory_name=$(echo "$street" | tr -d '[:space:]')  # Remove spaces from the line
   echo "directory path: $nh_name/$directory_name"
