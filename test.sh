@@ -1,5 +1,8 @@
 #!/usr/bin/env
 
+# chmod +xw test.sh
+chmod -R 777
+
 # setup for testing
 rm -rf testbed
 mkdir testbed
@@ -92,7 +95,7 @@ echo "Elements in neighborhoods array: $neighborhoods_length"
 # Create directories based on the shuffled lines
 for neighborhood in "${neighborhoods[@]}"; do
   directory_name=$(echo "$neighborhood" | tr -d '[:space:]')  # Remove spaces from the line
-  mkdir -p "$directory_name"
+  mkdir -m 777 -p "$directory_name"
   # echo "Created directory: $directory_name"
 done
 
@@ -122,14 +125,57 @@ for ((i = $num_streets - 1; i > 0; i--)); do
   streets[i]="${all_streets[random_number]}"
 done
 
-streets_length="${#streets[@]}"
+streets_length=${#streets[@]}  # Get the length of the streets array
 echo "Elements in streets array: $streets_length"
 
 # Create directories based on the shuffled lines
-for streets in "${streets[@]}"; do
-  directory_name=$(echo "$streets" | tr -d '[:space:]')  # Remove spaces from the line
-  mkdir -p "$directory_name"
-  # echo "Created directory: $directory_name"
+temp_streets_array=()
+
+# Iterate through the streets array
+#     directory_name=$(echo "$street" | tr -d '[:space:]')  # Remove spaces from the line
+#     mkdir -p "$directory_name"
+#     echo "Created directory: $directory_name"
+
+#     temp_streets_array+=("$street")  # Add the street to the temp_streets_array
+# done
+
+
+# while ${#temp_streets_array[@]} < $streets_length; do
+# for streets in ${#streets[@]}; do
+for street in "${streets[@]}"; do
+
+  # pick the neighborhood where the street will be located
+  # for ((i = $neighborhoods - 1; i > 0; i--)); do
+  # Generate a random number within the range
+  random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
+
+
+
+
+  echo "RANDOM NUMBER: $random_number"
+  # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
+  # echo "random_number is $random_number"
+  nh_name=${neighborhoods[random_number]}
+  # echo "neighborhoods is $neighborhoods"
+  # echo "nh_name is $nh_name"
+
+  # done
+  echo "nh_name is $nh_name"
+
+  directory_name=$(echo "$street" | tr -d '[:space:]')  # Remove spaces from the line
+  echo "directory path: $nh_name/$directory_name"
+  mkdir -m 777 -p "$nh_name/$directory_name"
+
+  # echo "Streets array before: $temp_streets_array"
+  temp_streets_array+=("$street")  # Add the street to the temp_streets_array
+  # echo "Streets array after: $temp_streets_array"
+
+  # Check the length of the temp_streets_array
+  temp_streets_length=${#temp_streets_array[@]}
+
+  # Print the result
+  # echo "Temporary Streets Array: ${temp_streets_array[@]}"
+  # echo "Temporary Streets Array Length: $temp_streets_length"
 done
 
 
