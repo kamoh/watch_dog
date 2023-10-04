@@ -1,7 +1,7 @@
 #!/usr/bin/env
 
 # chmod +xw test.sh
-chmod -R 777
+chmod -R 777 ./
 
 # setup for testing
 rm -rf testbed
@@ -92,14 +92,18 @@ done
 neighborhoods_length="${#neighborhoods[@]}"
 echo "Elements in neighborhoods array: $neighborhoods_length"
 
+neighborhood_directory_array=()
+
 # Create directories based on the shuffled lines
 for neighborhood in "${neighborhoods[@]}"; do
   directory_name=$(echo "$neighborhood" | tr -d '[:space:]')  # Remove spaces from the line
   mkdir -m 777 -p "$directory_name"
-  # echo "Created directory: $directory_name"
+  neighborhood_directory_array+=$directory_name
 done
 
 # now, do the same for streets within the neighborhoods
+
+echo "neighborhood_directory_array: $neighborhood_directory_array"
 
 num_streets=$(($difficulty * 5))
 
@@ -139,7 +143,6 @@ temp_streets_array=()
 #     temp_streets_array+=("$street")  # Add the street to the temp_streets_array
 # done
 
-
 # while ${#temp_streets_array[@]} < $streets_length; do
 # for streets in ${#streets[@]}; do
 for street in "${streets[@]}"; do
@@ -147,15 +150,16 @@ for street in "${streets[@]}"; do
   # pick the neighborhood where the street will be located
   # for ((i = $neighborhoods - 1; i > 0; i--)); do
   # Generate a random number within the range
-  random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
-
+  # random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
+  random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
 
 
   echo "RANDOM NUMBER: $random_number"
   # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
   # echo "random_number is $random_number"
-  nh_name=${neighborhoods[random_number]}
+  # nh_name="${neighborhood_directory_array[random_number]}"
+  nh_name="${neighborhood_directory_array[random_index]}"
   # echo "neighborhoods is $neighborhoods"
   # echo "nh_name is $nh_name"
 
@@ -184,7 +188,7 @@ done
 
 
 
-# sed '/^$/d;s/ /\//g' structure.txt | xargs mkdir -p
+# todo
 
 # ask the user for their dog name
 # ask the user for their home street name
