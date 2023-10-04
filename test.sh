@@ -43,13 +43,14 @@ read dog_name
 # Check if the input contains any digits
 if [[ "$dog_name" =~ ^[0-9]+$ ]]; then
   echo "That's a bunch of numbers! I'm asking for your dog's name, not its phone number!"
-else
-  echo "Try putting in a regular word! I am but a simple program."
 fi
 
 echo "dog name is $dog_name"
 
 num_neighborhoods=($difficulty + 1)
+
+# Use for tracking all possible directories
+all_street_directories=()
 
 # Set vars for neighborhood values
 all_neighborhoods=()
@@ -73,7 +74,7 @@ for ((i = $num_neighborhoods + 1; i > 0; i--)); do
 done
 
 neighborhoods_length="${#neighborhoods[@]}"
-echo "Elements in neighborhoods array: $neighborhoods_length"
+# echo "Elements in neighborhoods array: $neighborhoods_length"
 
 neighborhood_directory_array=()
 
@@ -86,7 +87,7 @@ done
 
 # now, do the same for streets within the neighborhoods
 
-echo "neighborhood array: ${neighborhoods[@]}"
+# echo "neighborhood array: ${neighborhoods[@]}"
 
 num_streets=$(($difficulty * 5))
 
@@ -111,7 +112,7 @@ for ((i = $num_streets - 1; i > 0; i--)); do
 done
 
 streets_length=${#streets[@]}  # Get the length of the streets array
-echo "Elements in streets array: $streets_length"
+# echo "Elements in streets array: $streets_length"
 
 # Create directories based on the shuffled lines
 temp_streets_array=()
@@ -119,18 +120,22 @@ temp_streets_array=()
 for street in "${streets[@]}"; do
   random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
-  echo "RANDOM NUMBER: $random_index"
+  # echo "RANDOM NUMBER: $random_index"
   # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
-  echo "neighborhood_directory_array is ${neighborhood_directory_array[@]}"
+  # echo "neighborhood_directory_array is ${neighborhood_directory_array[@]}"
   # nh_name="${neighborhood_directory_array[random_number]}"
   nh_name="${neighborhood_directory_array[random_index]}"
   # echo "neighborhoods is $neighborhoods"
-  echo "nh_name is $nh_name"
+  # echo "nh_name is $nh_name"
 
 
   directory_name=$(echo "$street" | tr -d '[:space:]')  # Remove spaces from the line
-  echo "directory path: $nh_name/$directory_name"
+  # echo "directory path: $nh_name/$directory_name"
   mkdir -m 777 -p "$nh_name/$directory_name"
+
+  all_street_directories+=("$nh_name/$directory_name")
+
+
 
   # echo "Streets array before: $temp_streets_array"
   temp_streets_array+=("$street")  # Add the street to the temp_streets_array
@@ -144,10 +149,24 @@ for street in "${streets[@]}"; do
   # echo "Temporary Streets Array Length: $temp_streets_length"
 done
 
+# debug for all dir generation
+# echo "All street dirs:"
+# for element in "${all_street_directories[@]}"; do
+#   echo "Element: $element"
+# done
 
+# debug for dog filename
+dog_file_extension=".dog"
+dog_file_name=$dog_name$dog_file_extension
+echo "Dog filename: $dog_file_name"
 
+# place the dog somewhere
+random_street_directory_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
+random_directory="${all_street_directories[random_street_directory_index]}"
 
+echo "Made a dog in $random_directory"
+touch $random_directory/$dog_file_name
 
 
 # todo
