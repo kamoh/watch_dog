@@ -37,32 +37,17 @@ while true; do
   fi
 done
 
-# based on difficulty (1, 2, 3) determine how many streets to loop from
-# this writes dirs for everything - need to limit this
+echo "What's your dog's name?"
+read dog_name
 
-# Check if the script is called with an argument
-# if [ $# -ne 1 ]; then
-#     echo "Usage: $0 <number_of_iterations>"
-#     exit 1
-# fi
+# Check if the input contains any digits
+if [[ "$dog_name" =~ ^[0-9]+$ ]]; then
+  echo "That's a bunch of numbers! I'm asking for your dog's name, not its phone number!"
+else
+  echo "Try putting in a regular word! I am but a simple program."
+fi
 
-# Store the argument in a variable
-# iterations=$1
-
-# Loop for the specified number of iterations
-# for (( i = 1; i <= difficulty; i++ )); do
-#   echo "Iteration $i"
-# done
-
-# # Read the first 5 lines of the text file and shuffle them randomly
-# random_lines=$(head -n 5 "structure.txt" | RANDOM % 10)
-
-# # Create directories based on the shuffled lines
-# for line in $random_lines; do
-#   directory_name=$(echo "$line" | tr -d '[:space:]')  # Remove spaces from the line
-#   mkdir -p "$directory_name"
-#   echo "Created directory: $directory_name"
-# done
+echo "dog name is $dog_name"
 
 num_neighborhoods=($difficulty + 1)
 
@@ -84,8 +69,6 @@ for ((i = $num_neighborhoods + 1; i > 0; i--)); do
   # Generate a random number within the range
   random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
 
-  # echo "RANDOM NUMBER: $random_number"
-  # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
   neighborhoods[i]="${all_neighborhoods[random_number]}"
 done
 
@@ -103,7 +86,6 @@ done
 
 # now, do the same for streets within the neighborhoods
 
-# echo "neighborhood_directory_array: $neighborhood_directory_array"
 echo "neighborhood array: ${neighborhoods[@]}"
 
 num_streets=$(($difficulty * 5))
@@ -125,8 +107,6 @@ for ((i = $num_streets - 1; i > 0; i--)); do
   # Generate a random number within the range
   random_number=$((RANDOM % ($street_max - $street_min + 1) + $street_min))
 
-  # echo "RANDOM NUMBER: $random_number"
-  # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
   streets[i]="${all_streets[random_number]}"
 done
 
@@ -136,27 +116,7 @@ echo "Elements in streets array: $streets_length"
 # Create directories based on the shuffled lines
 temp_streets_array=()
 
-# Iterate through the streets array
-#     directory_name=$(echo "$street" | tr -d '[:space:]')  # Remove spaces from the line
-#     mkdir -p "$directory_name"
-#     echo "Created directory: $directory_name"
-
-#     temp_streets_array+=("$street")  # Add the street to the temp_streets_array
-# done
-
-# while ${#temp_streets_array[@]} < $streets_length; do
-# for streets in ${#streets[@]}; do
 for street in "${streets[@]}"; do
-
-  # pick the neighborhood where the street will be located
-  # for ((i = $neighborhoods - 1; i > 0; i--)); do
-  # Generate a random number within the range
-
-  # dir does not work, random number does
-  # random_index=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
-
-
-  # dir works, random doesn;t
   random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
   echo "RANDOM NUMBER: $random_index"
