@@ -146,5 +146,42 @@ random_street_directory_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
 random_directory="${all_street_directories[random_street_directory_index]}"
 
+# dogs have opinions
+dog_opinions=(
+    'bark grrr wuf!'
+    '<big lick>'
+    'baooooooooo!'
+    'barf warf'
+    'booooooooka boark'
+    'blurf yarf!'
+    'woofus barko'
+    'meep meep <3'
+    '<emits unreasonably stinky fart>'
+    '<makes full eye contact and yawns>'
+    'ooeuf!'
+    '<lip smacking noises>'
+    '<sits patiently>'
+    'whimper woooo'
+    'hhhhhhhhr'
+    'yyyyyarf'
+    'buchh'
+    'myuaaaaang'
+    'myroaar'
+    'boof.'
+  )
+
+random_dog_opinion_index=$((RANDOM % ${#dog_opinions[@]}))
+random_dog_opinion="${dog_opinions[random_dog_opinion_index]}"
+
 echo "Made a dog in $random_directory"
-touch $random_directory/$dog_file_name
+echo $random_dog_opinion > $dog_file_name
+mv $dog_file_name $random_directory/$dog_file_name
+
+echo "random dog opinion: $random_dog_opinion"
+
+echo "<<<<<<<<<<<<<<<<<<<<<<<<"
+echo "Your dog's on the loose!"
+echo "Use the 'ls' command to see nearby neighborhoods and streets!"
+echo "Use the 'cd' command to change directories and track down that pup!"
+echo ">>>>>>>>>>>>>>>>>>>>>>>>"
+echo "Try 'cd/neighborhood' to start looking!"
