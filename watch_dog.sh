@@ -68,7 +68,7 @@ neighborhoods=()
 # while IFS= read -r line && [ ${#neighborhoods[@]} -lt $streets ]; do
 while IFS= read -r line; do
   all_neighborhoods+=("$line")
-done < "../neighborhoods.txt" # TODO: fix this path
+done < "../lib/neighborhoods.txt" # TODO: fix this path
 
 # Randomly pick neighborhoods
 neighborhood_min=1
@@ -104,7 +104,7 @@ all_streets=()
 streets=()
 while IFS= read -r line; do
   all_streets+=("$line")
-done < "../streets.txt"
+done < "../lib/streets.txt"
 
 # Randomly pick streets
 street_min=1
@@ -173,11 +173,13 @@ dog_opinions=(
 random_dog_opinion_index=$((RANDOM % ${#dog_opinions[@]}))
 random_dog_opinion="${dog_opinions[random_dog_opinion_index]}"
 
-echo "Made a dog in $random_directory"
+# debug to enter spoiler mode
+# echo "Made a dog in $random_directory"
 echo $random_dog_opinion > $dog_file_name
 mv $dog_file_name $random_directory/$dog_file_name
 
-echo "random dog opinion: $random_dog_opinion"
+# debug for opinions
+# echo "random dog opinion: $random_dog_opinion"
 
 echo "<<<<<<<<<<<<<<<<<<<<<<<<"
 echo "Your dog's on the loose!"
