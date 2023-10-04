@@ -7,3 +7,4 @@ ChatGPT
 
 ASCII ART
 https://textkool.com/en/ascii-art-generator
+https://www.asciiart.eu/animals/dogs

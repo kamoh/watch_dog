@@ -181,9 +181,87 @@ mv $dog_file_name $random_directory/$dog_file_name
 # debug for opinions
 # echo "random dog opinion: $random_dog_opinion"
 
+# TODO: Fix up how to get multiple dogs in there
+
+# dog_one=
+# cat <<"ONE"
+#     ___
+#  __/_  `.  .-"""-.
+#  \_,` | \-'  /   )`-')
+#   "") `"`    \  ((`"`
+#  ___Y  ,    .'7 /|
+# (_,___/...-` (_/_/
+# ONE
+
+# dog_two=
+# cat <<"TWO"
+#     /^ ^\
+#    / 0 0 \
+#    V\ Y /V
+#     / - \
+#    /    |
+#   V__) ||
+# TWO
+
+# dog_three=
+# cat <<"THREE"
+#      _____^_
+#      |    |    \
+#       \   /  ^ |
+#      / \_/   0  \
+#     /            \
+#    /    ____      0
+#   /      /  \___ _/
+# THREE
+
+# echo '
+#      |\_/|
+#      | @ @   Woof!
+#      |   <>              _
+#      |  _/\------____ ((| |))
+#      |               `--' |
+#  ____|_       ___|   |___.'
+# /_/_____/____/_______|
+# '
+
+# dog_five=cat << "FIVE"
+#           /  \
+#          / ..|\
+#         (_\  |_)
+#         /  \@'
+#        /     \
+#    _  /  `   |
+#   \\/  \  | _\
+#    \   /_ || \\_
+#     \____)|_) \_)
+# FIVE
+
+# dog_pics=(
+#   $dog_one
+#   $dog_two
+#   $dog_three
+#   $dog_four
+#   $dog_five
+# )
+
+# random_dog_pic_index=$((RANDOM % ${#dog_pics[@]}))
+
+# # echo "random_dog_pic_index: $random_dog_pic_index"
+# random_dog_pic="${dog_pics[random_dog_pic_index]}"
+
 echo "<<<<<<<<<<<<<<<<<<<<<<<<"
+# echo ${dog_pics[random_dog_pic_index]}
+cat << "EOF"
+     ___
+  __/_  `.  .-"""-.
+  \_,` | \-'  /   )`-')
+   "") `"`    \  ((`"`
+  ___Y  ,    .'7 /|
+ (_,___/...-` (_/_/
+EOF
+echo ">>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Your dog's on the loose!"
 echo "Use the 'ls' command to see nearby neighborhoods and streets!"
 echo "Use the 'cd' command to change directories and track down that pup!"
-echo ">>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Try 'cd/neighborhood' to start looking!"
+
