@@ -7,7 +7,7 @@
 
 Your dog's escaped into your filesystem... better go find him!
 
-A literal [decade](https://twitter.com/NoNameGhost/status/385974441219731456) in the making, _Watch Dog_ will provide literally minutes of entertainment for the whole (Bash-literate) family!
+A literal [decade](https://twitter.com/NoNameGhost/status/385974441219731456) in the making, _Watch Dog_ will provide nearly _minutes_ of entertainment for the whole (Bash-literate) family!
 
 ### Get Started
 
@@ -22,6 +22,7 @@ Once you find your dog, don't forget to `cat [dog_name]` to see what your buddy 
 
 ### Credits
 
+```
 IDEA
 Neil Sveri & Ben Serviss
 
@@ -32,3 +33,4 @@ ChatGPT
 ASCII ART
 https://textkool.com/en/ascii-art-generator
 https://www.asciiart.eu/animals/dogs
+```
