@@ -80,7 +80,7 @@ neighborhood_min=1
 neighborhood_max=${#all_neighborhoods[@]}
 
 # for ((i = ${#all_neighborhoods[@]} - 1; i > 0; i--)); do
-for ((i = $num_neighborhoods - 1; i > 0; i--)); do
+for ((i = $num_neighborhoods + 1; i > 0; i--)); do
   # Generate a random number within the range
   random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
 
@@ -98,12 +98,13 @@ neighborhood_directory_array=()
 for neighborhood in "${neighborhoods[@]}"; do
   directory_name=$(echo "$neighborhood" | tr -d '[:space:]')  # Remove spaces from the line
   mkdir -m 777 -p "$directory_name"
-  neighborhood_directory_array+=$directory_name
+  neighborhood_directory_array+=("$directory_name")
 done
 
 # now, do the same for streets within the neighborhoods
 
-echo "neighborhood_directory_array: $neighborhood_directory_array"
+# echo "neighborhood_directory_array: $neighborhood_directory_array"
+echo "neighborhood array: ${neighborhoods[@]}"
 
 num_streets=$(($difficulty * 5))
 
@@ -150,12 +151,15 @@ for street in "${streets[@]}"; do
   # pick the neighborhood where the street will be located
   # for ((i = $neighborhoods - 1; i > 0; i--)); do
   # Generate a random number within the range
-  # random_number=$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))
-  random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
+
+  # dir does not work, random number does
+  random_index="$((RANDOM % ($neighborhood_max - $neighborhood_min + 1) + $neighborhood_min))"
 
 
+  # dir works, random doesn;t
+  # random_index=$((RANDOM % ${#neighborhood_directory_array[@]}))
 
-  echo "RANDOM NUMBER: $random_number"
+  echo "RANDOM NUMBER: $random_index"
   # echo "PICKING THIS neighborhood: ${all_neighborhoods[random_number]}"
   # echo "random_number is $random_number"
   # nh_name="${neighborhood_directory_array[random_number]}"
