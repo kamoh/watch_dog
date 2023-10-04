@@ -28,7 +28,6 @@ Neil Sveri & Ben Serviss
 
 EXECUTION
 Ben Serviss
-ChatGPT
 
 ASCII ART
 https://textkool.com/en/ascii-art-generator
